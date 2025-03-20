@@ -464,7 +464,7 @@ fn test_apple(target: &str) {
             // FIXME(macos): sigaction actually contains a union with two variants:
             // a sa_sigaction with type: (*)(int, struct __siginfo *, void *)
             // a sa_handler with type sig_t
-            "sa_sigaction" if struct_ == "sigaction" => "sa_handler".to_string(),
+            // "sa_sigaction" if struct_ == "sigaction" => "sa_handler".to_string(),
             s => s.to_string(),
         }
     });
@@ -621,7 +621,7 @@ fn test_openbsd(target: &str) {
         "st_birthtime" if struct_.starts_with("stat") => "__st_birthtime".to_string(),
         "st_birthtime_nsec" if struct_.starts_with("stat") => "__st_birthtimensec".to_string(),
         s if s.ends_with("_nsec") && struct_.starts_with("stat") => s.replace("e_nsec", ".tv_nsec"),
-        "sa_sigaction" if struct_ == "sigaction" => "sa_handler".to_string(),
+        // "sa_sigaction" if struct_ == "sigaction" => "sa_handler".to_string(),
         s => s.to_string(),
     });
 
@@ -1452,7 +1452,7 @@ fn test_netbsd(target: &str) {
         // This is a weird union, don't check the type.
         (struct_ == "ifaddrs" && field == "ifa_ifu") ||
         // sighandler_t type is super weird
-        (struct_ == "sigaction" && field == "sa_sigaction") ||
+        // (struct_ == "sigaction" && field == "sa_sigaction") ||
         // sigval is actually a union, but we pretend it's a struct
         (struct_ == "sigevent" && field == "sigev_value") ||
         // aio_buf is "volatile void*" and Rust doesn't understand volatile
@@ -1677,7 +1677,7 @@ fn test_dragonflybsd(target: &str) {
         // This is a weird union, don't check the type.
         (struct_ == "ifaddrs" && field == "ifa_ifu") ||
         // sighandler_t type is super weird
-        (struct_ == "sigaction" && field == "sa_sigaction") ||
+        // (struct_ == "sigaction" && field == "sa_sigaction") ||
         // sigval is actually a union, but we pretend it's a struct
         (struct_ == "sigevent" && field == "sigev_value") ||
         // aio_buf is "volatile void*" and Rust doesn't understand volatile
@@ -2901,7 +2901,7 @@ fn test_freebsd(target: &str) {
         match (struct_, field) {
             // FIXME(freebsd): `sa_sigaction` has type `sighandler_t` but that type is
             // incorrect, see: https://github.com/rust-lang/libc/issues/1359
-            ("sigaction", "sa_sigaction") => true,
+            // ("sigaction", "sa_sigaction") => true,
 
             // conflicting with `p_type` macro from <resolve.h>.
             ("Elf32_Phdr", "p_type") => true,

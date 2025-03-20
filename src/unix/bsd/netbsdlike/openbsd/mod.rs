@@ -60,6 +60,12 @@ cfg_if! {
 }
 
 s! {
+    pub struct sigaction {
+        pub sa_sigaction: __c_anonymous_sigaction_u,
+        pub sa_mask: crate::sigset_t,
+        pub sa_flags: c_int,
+    }
+
     pub struct ip_mreqn {
         pub imr_multiaddr: in_addr,
         pub imr_address: in_addr,
@@ -750,6 +756,11 @@ s_no_extra_traits! {
         pub f_mntfromname: [c_char; 90],
         pub f_mntfromspec: [c_char; 90],
         pub mount_info: mount_info,
+    }
+
+    pub union __c_anonymous_sigaction_u {
+        pub __sa_handler: unsafe extern "C" fn(c_int) -> (),
+        pub __sa_sigaction: unsafe extern "C" fn(c_int, *mut siginfo_t, *mut c_void) -> (),
     }
 }
 

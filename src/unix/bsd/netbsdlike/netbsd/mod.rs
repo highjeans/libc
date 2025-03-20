@@ -129,6 +129,12 @@ impl siginfo_t {
 }
 
 s! {
+    pub struct sigaction {
+        pub sa_sigaction: __c_anonymous_sigaction_u,
+        pub sa_mask: crate::sigset_t,
+        pub sa_flags: c_int,
+    }
+
     pub struct aiocb {
         pub aio_offset: off_t,
         pub aio_buf: *mut c_void,
@@ -909,6 +915,11 @@ s_no_extra_traits! {
     pub union __c_anonymous_ifc_ifcu {
         pub ifcu_buf: *mut c_void,
         pub ifcu_req: *mut ifreq,
+    }
+
+    pub union __c_anonymous_sigaction_u {
+        pub _sa_handler: unsafe extern "C" fn(c_int) -> (),
+        pub _sa_sigaction: unsafe extern "C" fn(c_int, *mut siginfo_t, *mut c_void) -> (),
     }
 }
 

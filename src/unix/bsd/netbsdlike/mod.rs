@@ -38,12 +38,6 @@ s! {
         pub sched_priority: c_int,
     }
 
-    pub struct sigaction {
-        pub sa_sigaction: crate::sighandler_t,
-        pub sa_mask: crate::sigset_t,
-        pub sa_flags: c_int,
-    }
-
     pub struct stack_t {
         pub ss_sp: *mut c_void,
         pub ss_size: size_t,

@@ -361,8 +361,7 @@ s! {
     }
 
     pub struct sigaction {
-        // FIXME(union): this field is actually a union
-        pub sa_sigaction: crate::sighandler_t,
+        pub __sigaction_u: __sigaction_u,
         pub sa_mask: sigset_t,
         pub sa_flags: c_int,
     }
@@ -1632,6 +1631,11 @@ s_no_extra_traits! {
     pub struct in6_ifreq {
         pub ifr_name: [c_char; crate::IFNAMSIZ],
         pub ifr_ifru: __c_anonymous_ifr_ifru6,
+    }
+
+    pub union __sigaction_u {
+        pub __sa_handler: unsafe extern "C" fn(c_int) -> (),
+        pub __sa_sigaction: unsafe extern "C" fn(c_int, *mut siginfo_t, *mut c_void) -> (),
     }
 }
 

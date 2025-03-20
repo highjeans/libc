@@ -155,7 +155,7 @@ s! {
     }
 
     pub struct sigaction {
-        pub sa_sigaction: crate::sighandler_t,
+        pub sa_sigaction: __c_anonymous_sigaction_u,
         pub sa_flags: c_int,
         pub sa_mask: sigset_t,
     }
@@ -395,6 +395,11 @@ s_no_extra_traits! {
         __ss_pad1: [u8; 6],
         __ss_align: i64,
         __ss_pad2: [u8; 112],
+    }
+
+    pub union __c_anonymous_sigaction_u {
+        pub __sa_handler: unsafe extern "C" fn(c_int) -> (),
+        pub __sa_sigaction: unsafe extern "C" fn(c_int, *mut siginfo_t, *mut c_void) -> (),
     }
 }
 
