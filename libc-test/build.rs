@@ -5196,7 +5196,7 @@ fn test_haiku(target: &str) {
             // these are actually unions, but we cannot represent it well
             ("siginfo_t", "sigval") => true,
             ("sem_t", "named_sem_id") => true,
-            ("sigaction", "sa_sigaction") => true,
+            ("sigaction", "__sigaction_u") => true,
             ("sigevent", "sigev_value") => true,
             ("fpu_state", "_fpreg") => true,
             ("cpu_topology_node_info", "data") => true,

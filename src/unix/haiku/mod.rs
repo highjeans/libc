@@ -345,7 +345,8 @@ s! {
     }
 
     pub struct sigaction {
-        pub sa_sigaction: crate::sighandler_t, //actually a union with sa_handler
+        // TODO: Have union fields be part of the struct instead of being inside __sigaction_u
+        pub __sigaction_u: __c_anonymous___sigaction_u,
         pub sa_mask: crate::sigset_t,
         pub sa_flags: c_int,
         sa_userdata: *mut c_void,
@@ -494,6 +495,11 @@ s_no_extra_traits! {
         pub ut_line: [c_char; 16],
         pub ut_host: [c_char; 128],
         __ut_reserved: [c_char; 64],
+    }
+
+    pub union __c_anonymous___sigaction_u {
+        pub __sa_handler: unsafe extern "C" fn(c_int) -> (),
+        pub __sa_sigaction: unsafe extern "C" fn(c_int, *mut siginfo_t, *mut c_void) -> (),
     }
 }
 
