@@ -13,7 +13,7 @@ pub type __s64 = c_longlong;
 
 s! {
     pub struct sigaction {
-        pub sa_sigaction: crate::sighandler_t,
+        pub _u: __c_anonymous___sigaction_u,
         pub sa_mask: crate::sigset_t,
         #[cfg(target_arch = "sparc64")]
         __reserved0: c_int,
@@ -319,6 +319,11 @@ s_no_extra_traits! {
     #[repr(align(16))]
     pub struct max_align_t {
         priv_: [f64; 4],
+    }
+
+    pub union __c_anonymous___sigaction_u {
+        pub _sa_handler: unsafe extern "C" fn(c_int) -> (),
+        pub _sa_sigaction: unsafe extern "C" fn(c_int, *mut siginfo_t, *mut c_void) -> (),
     }
 }
 

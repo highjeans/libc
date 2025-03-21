@@ -6,7 +6,7 @@ pub type greg_t = i32;
 
 s! {
     pub struct sigaction {
-        pub sa_sigaction: crate::sighandler_t,
+        pub sa_handler: unsafe extern "C" fn(c_int),
         pub sa_mask: crate::sigset_t,
         pub sa_flags: c_int,
         pub sa_restorer: Option<extern "C" fn()>,

@@ -159,7 +159,7 @@ s! {
     }
 
     pub struct sigaction {
-        pub sa_sigaction: crate::sighandler_t,
+        pub __sa_handler: __c_anonymous___sigaction_u,
         pub sa_mask: crate::sigset_t,
         pub sa_flags: c_int,
         pub sa_restorer: Option<extern "C" fn()>,
@@ -384,6 +384,11 @@ s_no_extra_traits! {
     #[repr(align(8))]
     pub struct max_align_t {
         priv_: [f64; 3],
+    }
+
+    pub union __c_anonymous___sigaction_u {
+        pub sa_handler: unsafe extern "C" fn(c_int) -> (),
+        pub sa_sigaction: unsafe extern "C" fn(c_int, *mut siginfo_t, *mut c_void) -> (),
     }
 }
 
